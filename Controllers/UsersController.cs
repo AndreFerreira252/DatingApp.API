@@ -46,14 +46,14 @@ namespace DatingApp.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            int currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            // int currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             User userFromRepo = await _repo.GetUser(id);
 
             if (userFromRepo == null)
                 return NotFound($"Could not find user with an ID of {id}");
 
-            if (currentUserId != userFromRepo.Id)
-                return Unauthorized();
+            // if (currentUserId != userFromRepo.Id)
+            //     return Unauthorized();
 
             Mapper.Map(userForUpdateDto, userFromRepo);
 
