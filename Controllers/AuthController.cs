@@ -40,14 +40,12 @@ namespace DatingApp.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var usertoCreate = new User
-            {
-                Username = userForRegisterDto.Username
-            };
+            var usertoCreate = _mapper.Map<User>(userForRegisterDto);
 
             var createdUser = await _repo.Register(usertoCreate, userForRegisterDto.Password);
+            var userToReturn = _mapper.Map<UserForDetailDto>(createdUser);
 
-            return StatusCode(201);
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
         }
 
         [HttpPost("login")]
